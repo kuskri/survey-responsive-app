@@ -1,25 +1,70 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client";
 
+import { useRouter } from "next/navigation";
+import SurveyListRow from "./components/SurveyRow";
+import { SurveyType } from "@/models/Survey";
+import Button from "./components/Button";
+import useSWR from "swr";
+
+interface SurveyRespType extends SurveyType {
+  _id: string;
+}
 export default function Home() {
+  const router = useRouter();
+
+  const fetcher = (...args: any) => fetch(...args).then((res) => res.json());
+
+  const { data, isLoading } = useSWR(
+    `http://localhost:3000/api/survey`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      refreshWhenOffline: false,
+      refreshWhenHidden: false,
+      refreshInterval: 0,
+    }
+  );
+
+  const onClickRow = (id = "") => {
+    router.push(`survey/${id}`);
+  };
+  const onEnterSurvey = () => {
+    router.push(`insert-survey`);
+  };
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <Link
-          href="survey-list"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Surveys{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Start inserting and taking your surveys
-          </p>
-        </Link>
+    <div className="flex min-h-screen flex-col items-center justify-between p-24">
+      <div className="mt-32 flex flex-col items-center">
+        {data && data.length && (
+          <div className="px-4 sm:px-8 max-w-5xl m-auto">
+            <h1 className="mt-2 text-center text-2xl font-bold text-gray-500">
+              Surveys
+            </h1>
+            <p className="mt-2 text-center text-xs mb-4 text-gray-500">
+              Choose which survey you want to take
+            </p>
+            <ul className="border border-gray-200 rounded overflow-hidden shadow-md">
+              {data.map((item: SurveyRespType) => {
+                return (
+                  <SurveyListRow
+                    label={item.question}
+                    onClick={() => onClickRow(item._id)}
+                    key={`row-${item._id}`}
+                    loading={isLoading}
+                  />
+                );
+              })}
+            </ul>
+          </div>
+        )}
+        <div className="mt-6">
+          <Button
+            label="Add your own survey"
+            onClick={onEnterSurvey}
+            isLoading={isLoading}
+          />
+        </div>
       </div>
-    </main>
+    </div>
   );
 }
