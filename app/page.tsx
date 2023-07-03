@@ -33,7 +33,7 @@ export default function Home() {
     router.push(`insert-survey`);
   };
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
+    <div className="flex min-h-screen flex-col items-center justify-between p-3 lg:p-24">
       <div className="mt-32 flex flex-col items-center">
         {!!(data && data.length) && (
           <div className="px-4 sm:px-8 max-w-5xl m-auto">
