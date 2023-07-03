@@ -4,7 +4,7 @@ import SurveyRow from "@/app/components/SurveyRow";
 import { OptionType, SurveyType } from "@/models/Survey";
 import { useParams, useRouter } from "next/navigation";
 import React, { FC, useEffect, useMemo, useState } from "react";
-import useSWR from "swr";
+import useSWR, { Fetcher } from "swr";
 import useSWRMutation from "swr/mutation";
 
 async function sendRequest(url: string, { arg }: { arg: string }) {
@@ -33,9 +33,10 @@ const Page: FC = () => {
     }
   }, [votedData]);
 
-  const fetcher = (...args: any) => fetch(...args).then((res) => res.json());
+  const fetcher: Fetcher<SurveyType, string> = (...args) =>
+    fetch(...args).then((res) => res.json());
 
-  const { data, mutate } = useSWR(
+  const { data: singleSurvey, mutate } = useSWR(
     `http://localhost:3000/api/survey/${surveyId}`,
     fetcher,
     {
@@ -47,8 +48,6 @@ const Page: FC = () => {
     }
   );
 
-  const singleSurvey: SurveyType = data;
-
   const onBack = () => {
     router.back();
   };
@@ -56,7 +55,7 @@ const Page: FC = () => {
   const allTheVotes = useMemo(() => {
     return singleSurvey?.options
       ?.map((i) => i.votes)
-      ?.reduce((acc, curr) => acc + curr, 0);
+      ?.reduce((acc, curr) => (acc ?? 0) + (curr ?? 0), 0);
   }, [singleSurvey]);
 
   const showPercentage = useMemo(() => {

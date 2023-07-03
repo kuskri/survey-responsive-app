@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import SurveyListRow from "./components/SurveyRow";
 import { SurveyType } from "@/models/Survey";
 import Button from "./components/Button";
-import useSWR from "swr";
+import useSWR, { Fetcher } from "swr";
 
 interface SurveyRespType extends SurveyType {
   _id: string;
@@ -12,7 +12,8 @@ interface SurveyRespType extends SurveyType {
 export default function Home() {
   const router = useRouter();
 
-  const fetcher = (...args: any) => fetch(...args).then((res) => res.json());
+  const fetcher: Fetcher<SurveyRespType[], string> = (args: string) =>
+    fetch(args).then((res) => res.json());
 
   const { data, isLoading } = useSWR(
     `http://localhost:3000/api/survey`,
