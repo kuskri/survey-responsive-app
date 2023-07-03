@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="mt-32 flex flex-col items-center">
-        {data && data.length && (
+        {!!(data && data.length) && (
           <div className="px-4 sm:px-8 max-w-5xl m-auto">
             <h1 className="mt-2 text-center text-2xl font-bold text-gray-500">
               Surveys
