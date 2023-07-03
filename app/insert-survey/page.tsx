@@ -16,7 +16,7 @@ const InsertSurvey: FC = () => {
   const router = useRouter();
 
   const { data, trigger, isMutating } = useSWRMutation(
-    "/api/addSurvey",
+    "/api/survey",
     sendRequest
   );
 

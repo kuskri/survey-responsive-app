@@ -15,13 +15,17 @@ const SurveyList: FC = () => {
 
   const fetcher = (...args: any) => fetch(...args).then((res) => res.json());
 
-  const { data } = useSWR(`http://localhost:3000/api/survey`, fetcher, {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-    refreshWhenOffline: false,
-    refreshWhenHidden: false,
-    refreshInterval: 0,
-  });
+  const { data, isLoading } = useSWR(
+    `http://localhost:3000/api/survey`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      refreshWhenOffline: false,
+      refreshWhenHidden: false,
+      refreshInterval: 0,
+    }
+  );
 
   const onClickRow = (id = "") => {
     router.push(`survey/${id}`);
@@ -47,6 +51,7 @@ const SurveyList: FC = () => {
                     label={item.question}
                     onClick={() => onClickRow(item._id)}
                     key={`row-${item._id}`}
+                    loading={isLoading}
                   />
                 );
               })}
@@ -54,7 +59,11 @@ const SurveyList: FC = () => {
           </div>
         )}
         <div className="mt-6">
-          <Button label="Add your own survey" onClick={onEnterSurvey} />
+          <Button
+            label="Add your own survey"
+            onClick={onEnterSurvey}
+            isLoading={isLoading}
+          />
         </div>
       </div>
     </div>
