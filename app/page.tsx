@@ -22,17 +22,13 @@ export default function Home() {
   const fetcher: Fetcher<SurveyRespType[], string> = (args: string) =>
     fetch(args).then((res) => res.json());
 
-  const { data, isLoading } = useSWR(
-    `http://localhost:3000/api/survey`,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      refreshWhenOffline: false,
-      refreshWhenHidden: false,
-      refreshInterval: 0,
-    }
-  );
+  const { data, isLoading } = useSWR(`/api/survey`, fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    refreshWhenOffline: false,
+    refreshWhenHidden: false,
+    refreshInterval: 0,
+  });
 
   const onClickRow = (id = "") => {
     router.push(`survey/${id}`);

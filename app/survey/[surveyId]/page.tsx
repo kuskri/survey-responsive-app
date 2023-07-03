@@ -37,7 +37,7 @@ const Page: FC = () => {
     fetch(...args).then((res) => res.json());
 
   const { data: singleSurvey, mutate } = useSWR(
-    `http://localhost:3000/api/survey/${surveyId}`,
+    `/api/survey/${surveyId}`,
     fetcher,
     {
       revalidateOnFocus: false,
