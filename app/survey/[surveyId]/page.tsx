@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/app/components/Button";
 import SurveyRow from "@/app/components/SurveyRow";
-import { OptionType, SurveyType } from "@/models/Survey";
+import { ResponseOptionType, SurveyRespType } from "@/app/page";
 import { useParams, useRouter } from "next/navigation";
 import React, { FC, useEffect, useMemo, useState } from "react";
 import useSWR, { Fetcher } from "swr";
@@ -33,7 +33,7 @@ const Page: FC = () => {
     }
   }, [votedData]);
 
-  const fetcher: Fetcher<SurveyType, string> = (...args) =>
+  const fetcher: Fetcher<SurveyRespType, string> = (...args) =>
     fetch(...args).then((res) => res.json());
 
   const { data: singleSurvey, mutate } = useSWR(
@@ -73,22 +73,24 @@ const Page: FC = () => {
         </h1>
         {singleSurvey?.options && singleSurvey?.options?.length && (
           <ul className="flex flex-col gap-5 ">
-            {singleSurvey.options.map((option: OptionType, index: number) => {
-              const percentage = (
-                ((option?.votes ?? 0 * 100) / (allTheVotes ?? 1)) *
-                100
-              ).toFixed();
-              return (
-                <SurveyRow
-                  disabled={optionsDisabled}
-                  key={`option-${index}`}
-                  onClick={() => onVote(option?.label)}
-                  label={option?.label}
-                  loading={isMutating}
-                  percentage={showPercentage ? +percentage : undefined}
-                />
-              );
-            })}
+            {singleSurvey.options.map(
+              (option: ResponseOptionType, index: number) => {
+                const percentage = (
+                  ((option?.votes ?? 0 * 100) / (allTheVotes ?? 1)) *
+                  100
+                ).toFixed();
+                return (
+                  <SurveyRow
+                    disabled={optionsDisabled}
+                    key={`option-${index}`}
+                    onClick={() => onVote(option?._id)}
+                    label={option?.label}
+                    loading={isMutating}
+                    percentage={showPercentage ? +percentage : undefined}
+                  />
+                );
+              }
+            )}
           </ul>
         )}
       </div>

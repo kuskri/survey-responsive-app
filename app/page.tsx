@@ -2,13 +2,20 @@
 
 import { useRouter } from "next/navigation";
 import SurveyListRow from "./components/SurveyRow";
-import { SurveyType } from "@/models/Survey";
+import { OptionType } from "@/models/Survey";
 import Button from "./components/Button";
 import useSWR, { Fetcher } from "swr";
 
-interface SurveyRespType extends SurveyType {
+export interface SurveyRespType {
+  _id: string;
+  question: string;
+  options: ResponseOptionType[];
+}
+
+export interface ResponseOptionType extends OptionType {
   _id: string;
 }
+
 export default function Home() {
   const router = useRouter();
 

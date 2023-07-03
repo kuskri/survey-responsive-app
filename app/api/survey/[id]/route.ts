@@ -21,7 +21,7 @@ export const PUT = async (req: any, { params }: { params: { id: string } }) => {
   try {
     await dbConnect();
     Survey.updateOne(
-      { _id: params.id, "options.label": `${body}` },
+      { _id: params.id, "options._id": `${body}` },
       { $inc: { "options.$.votes": 1 } }
     ).exec();
 
