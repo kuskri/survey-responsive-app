@@ -46,7 +46,7 @@ const InsertSurvey: FC = () => {
   };
 
   const inputClass =
-    "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
+    "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5";
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-6 lg:p-24 ">
       <div className="w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-md duration-300 ">
@@ -59,7 +59,7 @@ const InsertSurvey: FC = () => {
             <div className="block mb-2">
               <label
                 htmlFor="question"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="block mb-2 text-sm font-medium text-gray-900"
               >
                 Question <span className="text-slate-500">*</span>
               </label>
@@ -75,7 +75,7 @@ const InsertSurvey: FC = () => {
             <div className="block mb-2">
               <label
                 htmlFor="op1"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="block mb-2 text-sm font-medium text-gray-900"
               >
                 Option 1 <span className="text-slate-500">*</span>
               </label>
@@ -91,7 +91,7 @@ const InsertSurvey: FC = () => {
             <div className="block mb-2">
               <label
                 htmlFor="first_name"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="block mb-2 text-sm font-medium text-gray-900"
               >
                 Option 2 <span className="text-slate-500">*</span>
               </label>
@@ -107,7 +107,7 @@ const InsertSurvey: FC = () => {
             <div className="block mb-2">
               <label
                 htmlFor="op3"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="block mb-2 text-sm font-medium text-gray-900"
               >
                 Option 3
               </label>
@@ -122,7 +122,7 @@ const InsertSurvey: FC = () => {
             <div className="block mb-2">
               <label
                 htmlFor="op4"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="block mb-2 text-sm font-medium text-gray-900"
               >
                 Option 4
               </label>
