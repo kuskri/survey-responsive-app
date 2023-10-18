@@ -24,11 +24,13 @@ const InsertSurvey: FC = () => {
     if (data?.status === 201) onBack();
   }, [data]);
 
-  const [question, setQuestion] = useState<string>("");
-  const [op1, setOp1] = useState<string>("");
-  const [op2, setOp2] = useState<string>("");
-  const [op3, setOp3] = useState<string>("");
-  const [op4, setOp4] = useState<string>("");
+  const [form, setForm] = useState({
+    question: "",
+    op1: "",
+    op2: "",
+    op3: "",
+    op4: "",
+  });
 
   const onBack = () => {
     router.back();
@@ -37,12 +39,24 @@ const InsertSurvey: FC = () => {
   const onFromSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const item: SurveyType = {
-      question: question,
-      options: [{ label: op1 }, { label: op2 }, { label: op3 }, { label: op4 }],
+      question: form.question,
+      options: [
+        { label: form.op1 },
+        { label: form.op2 },
+        { label: form.op3 },
+        { label: form.op4 },
+      ],
     };
     await trigger({
       ...item,
     });
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setForm((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }));
   };
 
   const inputClass =
@@ -66,10 +80,11 @@ const InsertSurvey: FC = () => {
               <input
                 type="text"
                 id="question"
+                name="question"
                 className={inputClass}
                 placeholder="Your survey's question"
                 required
-                onChange={(e) => setQuestion(e.target.value)}
+                onChange={handleChange}
               />
             </div>
             <div className="block mb-2">
@@ -82,10 +97,11 @@ const InsertSurvey: FC = () => {
               <input
                 type="text"
                 id="op1"
+                name="op1"
                 className={inputClass}
                 placeholder="Your survey's first option"
                 required
-                onChange={(e) => setOp1(e.target.value)}
+                onChange={handleChange}
               />
             </div>
             <div className="block mb-2">
@@ -98,10 +114,11 @@ const InsertSurvey: FC = () => {
               <input
                 type="text"
                 id="op2"
+                name="op2"
                 className={inputClass}
                 placeholder="Your survey's second option"
                 required
-                onChange={(e) => setOp2(e.target.value)}
+                onChange={handleChange}
               />
             </div>
             <div className="block mb-2">
@@ -114,9 +131,10 @@ const InsertSurvey: FC = () => {
               <input
                 type="text"
                 id="op3"
+                name="op3"
                 className={inputClass}
                 placeholder="Your survey's third option"
-                onChange={(e) => setOp3(e.target.value)}
+                onChange={handleChange}
               />
             </div>
             <div className="block mb-2">
@@ -129,9 +147,10 @@ const InsertSurvey: FC = () => {
               <input
                 type="text"
                 id="op4"
+                name="op4"
                 className={inputClass}
                 placeholder="Your survey's fourth option"
-                onChange={(e) => setOp4(e.target.value)}
+                onChange={handleChange}
               />
             </div>
           </div>
@@ -147,7 +166,7 @@ const InsertSurvey: FC = () => {
             />
             <Button
               isLoading={isMutating}
-              disabled={!(question && op1 && op2)}
+              disabled={!(form.question && form.op1 && form.op2)}
               label="Add"
               color="green"
               type="submit"
